@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calendar Planner</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✓
+            </div>
+
+            <div>
+                <h2>Planner</h2>
+                <span>Calendar</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button
+                class="nav-item active"
+                data-view="calendar">
+                <span>📅</span>
+                Calendar
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="tasks">
+                <span>✓</span>
+                Tasks
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="today">
+                <span>📌</span>
+                Today
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="upcoming">
+                <span>📋</span>
+                Upcoming
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="ai">
+                <span>🤖</span>
+                AI Planner
+            </button>
+
+        </nav>
+
+
+        <!-- CATEGORIES -->
+
+        <div class="sidebar-section">
+
+            <p class="section-title">
+                CATEGORIES
+            </p>
+
+            <div class="category">
+                <span class="dot study"></span>
+                Study
+            </div>
+
+            <div class="category">
+                <span class="dot work"></span>
+                Work
+            </div>
+
+            <div class="category">
+                <span class="dot personal"></span>
+                Personal
+            </div>
+
+            <div class="category">
+                <span class="dot other"></span>
+                Other
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="sidebar-bottom">
+
+            <div class="stats">
+
+                <div>
+                    <strong id="totalEvents">0</strong>
+                    <span>Total</span>
+                </div>
+
+                <div>
+                    <strong id="completedEvents">0</strong>
+                    <span>Done</span>
+                </div>
+
+                <div>
+                    <strong id="todayEvents">0</strong>
+                    <span>Today</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- ================= CALENDAR ================= -->
+
+        <div id="calendarView">
+
+            <header class="topbar">
+
+                <div>
+
+                    <h1>Calendar</h1>
+
+                    <p>
+                        Plan your day and stay organized.
+                    </p>
+
+                </div>
+
+                <button
+                    id="addEventBtn"
+                    class="add-btn">
+                    + Add Event
+                </button>
+
+            </header>
+
+
+            <div class="calendar-toolbar">
+
+                <div class="month-navigation">
+
+                    <button id="previousMonth">
+                        ‹
+                    </button>
+
+                    <h2 id="monthYear"></h2>
+
+                    <button id="nextMonth">
+                        ›
+                    </button>
+
+                </div>
+
+                <button
+                    id="todayBtn"
+                    class="today-btn">
+                    Today
+                </button>
+
+            </div>
+
+
+            <div class="weekdays">
+
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+                <div>Sun</div>
+
+            </div>
+
+
+            <div
+                id="calendar"
+                class="calendar">
+            </div>
+
+        </div>
+
+
+        <!-- ================= TASKS ================= -->
+
+        <div
+            id="tasksView"
+            class="page-view">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Tasks</h1>
+
+                    <p>
+                        Manage everything you need to get done.
+                    </p>
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="openAddEvent()">
+                    + Add Task
+                </button>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress-card">
+
+                <div class="progress-top">
+
+                    <div>
+                        <strong id="progressText">
+                            0%
+                        </strong>
+
+                        <span>
+                            completed
+                        </span>
+                    </div>
+
+                    <div id="streakText">
+                        🔥 0 day streak
+                    </div>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        id="progressFill"
+                        class="progress-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH / FILTER -->
+
+            <div class="filters">
+
+                <input
+                    id="taskSearch"
+                    type="text"
+                    placeholder="🔍 Search tasks...">
+
+
+                <select id="categoryFilter">
+
+                    <option value="all">
+                        All categories
+                    </option>
+
+                    <option value="Study">
+                        Study
+                    </option>
+
+                    <option value="Work">
+                        Work
+                    </option>
+
+                    <option value="Personal">
+                        Personal
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All status
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                    <option value="completed">
+                        Completed
+                    </option>
+
+                    <option value="overdue">
+                        Overdue
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                id="tasksList"
+                class="task-list">
+            </div>
+
+        </div>
+
+
+        <!-- ================= TODAY ================= -->
+
+        <div
+            id="todayView"
+            class="page-view">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Today</h1>
+
+                    <p id="todayDate"></p>
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="openAddEvent()">
+                    + Add Task
+                </button>
+
+            </div>
+
+
+            <div class="today-summary">
+
+                <div class="summary-card">
+
+                    <span>Today's tasks</span>
+
+                    <strong id="todayTotal">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>Completed</span>
+
+                    <strong id="todayCompleted">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>Remaining</span>
+
+                    <strong id="todayRemaining">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="todayList"
+                class="task-list">
+            </div>
+
+        </div>
+
+
+        <!-- ================= UPCOMING ================= -->
+
+        <div
+            id="upcomingView"
+            class="page-view">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Upcoming</h1>
+
+                    <p>
+                        See what's coming next.
+                    </p>
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="openAddEvent()">
+                    + Add Event
+                </button>
+
+            </div>
+
+
+            <div
+                id="upcomingList"
+                class="task-list">
+            </div>
+
+        </div>
+
+
+        <!-- ================= AI PLANNER ================= -->
+
+        <div
+            id="aiView"
+            class="page-view">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>🤖 AI Planner</h1>
+
+                    <p>
+                        Tell the planner what you need to accomplish.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-card">
+
+                <div class="ai-icon">
+                    ✨
+                </div>
+
+
+                <h2>
+                    What do you need to plan?
+                </h2>
+
+
+                <p>
+                    Describe your goal naturally and AI will
+                    break it into calendar sessions.
+                </p>
+
+
+                <textarea
+                    id="aiPrompt"
+                    class="ai-input"
+                    placeholder="Example: I have an exam on Friday. I have 5 chapters to study and need about 2 hours per chapter. I am free after 5 PM on weekdays.">
+                </textarea>
+
+
+                <button
+                    id="generatePlanBtn"
+                    class="generate-btn">
+                    ✨ Generate Study Plan
+                </button>
+
+
+                <div
+                    id="aiLoading"
+                    class="ai-loading">
+                    Creating your plan...
+                </div>
+
+
+                <div
+                    id="aiResult"
+                    class="ai-result">
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= MODAL ================= -->
+
+    <div
+        id="eventModal"
+        class="modal">
+
+        <div class="modal-content">
+
+            <button
+                id="closeModal"
+                class="close">
+                ×
+            </button>
+
+
+            <h2 id="modalTitle">
+                Add Event
+            </h2>
+
+
+            <form id="eventForm">
+
+                <input
+                    type="hidden"
+                    id="eventId">
+
+
+                <label>
+                    Event name
+
+                    <input
+                        type="text"
+                        id="eventName"
+                        required>
+                </label>
+
+
+                <label>
+                    Description
+
+                    <textarea
+                        id="eventContent">
+                    </textarea>
+
+                </label>
+
+
+                <label>
+                    Category
+
+                    <select id="eventCategory">
+
+                        <option value="Study">
+                            Study
+                        </option>
+
+                        <option value="Work">
+                            Work
+                        </option>
+
+                        <option value="Personal">
+                            Personal
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Priority
+
+                    <select id="eventLevel">
+
+                        <option value="0">
+                            None
+                        </option>
+
+                        <option value="1">
+                            Low
+                        </option>
+
+                        <option value="2">
+                            Medium
+                        </option>
+
+                        <option value="3">
+                            High
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <div class="time-row">
+
+                    <label>
+                        Start
+
+                        <input
+                            type="datetime-local"
+                            id="startTime"
+                            required>
+                    </label>
+
+
+                    <label>
+                        End
+
+                        <input
+                            type="datetime-local"
+                            id="endTime"
+                            required>
+                    </label>
+
+                </div>
+
+
+                <div class="form-buttons">
+
+                    <button
+                        type="submit"
+                        class="save-btn">
+                        Save Event
+                    </button>
+
+                    <button
+                        type="button"
+                        id="deleteBtn"
+                        class="delete-btn">
+                        Delete
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+<script src="/static/app.js"></script>
+
+</body>
+
+</html>

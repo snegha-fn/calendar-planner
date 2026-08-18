@@ -1,10 +1,3 @@
-# -*- coding:utf-8 -*-
-
-"""数据库操作类
-    Author: github@luochang212
-    Date: 2020-11-15
-"""
-
 import sqlite3
 
 

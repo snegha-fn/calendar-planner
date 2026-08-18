@@ -1,17 +1,9 @@
-# -*- coding:utf-8 -*-
-
-"""API 操作方法
-    Author: github@luochang212
-    Date: 2020-11-15
-"""
-
 import configparser
 import json
 import datetime
 
 
 class Method:
-    """API 操作方法"""
 
     def __init__(self, conf_file):
         """init"""
@@ -22,7 +14,6 @@ class Method:
         self.columns = json.loads(self.info['columns'])
 
     def check_params(self, jsn):
-        """检查参数值"""
         if jsn['level'] not in [0, 1, 2, 3]:
             return False
 
@@ -52,13 +43,11 @@ class Method:
             condition={'sid': schedule_id})
 
     def post(self, dbh, schedule):
-        # 检查item是否存在
         schedule_id = schedule.dict()['sid']
         if dbh.check_existence(self.info['table_name'], self.columns, {'sid': schedule_id}):
-            # 如果存在
+            
             return False
 
-        # 检查参数值是否符合规范
         if not self.check_params(schedule.dict()):
             return False
 
@@ -70,12 +59,10 @@ class Method:
         return True
 
     def update(self, dbh, schedule_id, schedule):
-        # 检查item是否存在
+        
         if not dbh.check_existence(self.info['table_name'], self.columns, {'sid': schedule_id}):
-            # 如果不存在
+        
             return False
-
-        # 检查参数值是否符合规范
         if not self.check_params(schedule.dict()):
             return False
 
@@ -88,9 +75,8 @@ class Method:
         return True
 
     def delete(self, dbh, schedule_id):
-        # 检查item是否存在
         if not dbh.check_existence(self.info['table_name'], self.columns, {'sid': schedule_id}):
-            # 如果不存在
+           
             return False
 
         dbh.delete_data(
