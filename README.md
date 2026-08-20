@@ -1,24 +1,36 @@
-# calendar-api
+# AI Calendar Planner
 
-A simple calendar API powered by FastAPI.
+An AI-powered calendar and task management application
+built with FastAPI.
 
-## Architecture
+## Features
 
-```
-- database
-	- build.py
-	- database_handler.py
-- server
-	- method.py
-	- server.py
-- client
-	- client.py
-```
+- Calendar management
+- Task management
+- Priority tracking
+- Category filtering
+- Search
+- Progress tracking
+- Overdue detection
+- Daily streaks
+- AI scheduling assistant
 
-## Usage
+## Tech Stack
 
-1. Clone this repo from GitHub
-2. Install Python packages: `fastapi` and `uvicorn`
-3. Run `python build.py` to create a SQLite database (only run for the first time)
-4. Run `uvicorn server:app --reload`
-5. Run test code in `client.py`, or try it out on `http://127.0.0.1:8000/docs`
+Frontend:
+HTML
+CSS
+JavaScript
+
+Backend:
+FastAPI
+Python
+
+Database:
+SQLite / PostgreSQL
+
+AI:
+Google Gemini
+
+Deployment:
+Render
